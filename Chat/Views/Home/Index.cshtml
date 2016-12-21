@@ -1,0 +1,292 @@
+﻿@model Chat.Models.Person
+
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts {
+    @*<script src="@Url.Content("~/Scripts/jquery.signalR-0.5.3.min.js")" type="text/javascript"></script>*@
+    @Scripts.Render("~/bundles/signalR")
+    <script src="@Url.Content("~/signalr/hubs")" type="text/javascript"></script>
+    <script type="text/javascript">
+        var currentRoom;
+
+        //Extends JQuery
+        $.fn.exists = function () {
+            return this.length !== 0;
+        }
+        $.fn.notExists = function () {
+            return this.length === 0;
+        }
+
+        $(document).ready(function () {
+            verifyNotifyMeStatus();
+            $('#rooms').tab(); //Initialize tabs
+            var chat = $.connection.chat;
+
+            chat.setRooms = function (rooms) {
+                $("#rooms").empty();
+                for (var i = 0; i < rooms.length; ++i) {
+                    var roomId = rooms[i].Name.replace(" ", "");
+                    $("#rooms").append("<li><a href='#" + roomId + "' class='showRoom' data-toggle='tab' data-roomName='" + rooms[i].Name + "'>" + rooms[i].Name + "</a></li>");
+
+                    if ($("#" + roomId).notExists()) {
+                        $("#chat").append("<div class='tab-pane' id='" + roomId + "'></div>");
+                    }
+                }
+            }
+
+            chat.joined = function (roomName, userName) {
+                currentRoom = roomName;
+                var roomId = roomName.replace(" ", "");
+                $("#chat").append("<div class='tab-pane active' id='" + roomId + "'></div>");
+                $("#" + roomId).append("<div class='userRoomIn'>" + userName + " entrou na sala " + roomName + "</div>");
+                $("[data-roomName='" + roomName + "']").tab('show');
+            };
+
+            chat.messageReceived = function (roomName, msg, msgUser, sameUser) {
+                currentRoom = roomName;
+                var roomId = roomName.replace(" ", "");
+                var owner = "@Model.Name" == msgUser;
+
+                if (sameUser && $("#" + roomId + " .msgContainer").exists()) {
+                    var container = $("#" + roomId + " .msgContainer").last();
+                    if (owner) {
+                        addClass(container, "Owner");
+                    }
+                    container.append(msg).children().last().hide().fadeIn(500);
+                }
+                else {
+                    $("#" + roomId).append("<div class='msgContainer'>" + msg + "</div>");
+                    var container = $("#" + roomId + " .msgContainer").last();
+                    if (owner) {
+                        addClass(container, "Owner");
+                    }
+                    container.children().last().hide().fadeIn(500);
+                }
+
+                automaticallyScroll();
+            };
+
+            chat.notify = function (ico, title, msg, timer) {
+                if (window.webkitNotifications) {
+                    if (window.webkitNotifications.checkPermission() == 0) { // 0 is PERMISSION_ALLOWED
+                        var nf = window.webkitNotifications.createNotification(ico, title, msg);
+                        nf.show();
+                        setTimeout(function () {
+                            nf.cancel();
+                        }, timer);
+                    }
+                }
+
+                if ($.pinify.isPinned()) {
+                    $.pinify.clearOverlay();
+                    $.pinify.flashTaskbar();
+                    $.pinify.addOverlay({ title: 'New Message!!', icon: '/chat/newmsg.ico' });
+                }
+            };
+
+            chat.quited = function (roomName, userName) {
+                var roomId = roomName.replace(" ", "");
+                $("#" + roomId).append("<div class='userRoomOut'>" + userName + " saiu da sala " + roomName + "</div>");
+
+                automaticallyScroll();
+            };
+
+
+            chat.setUsers = function (users) {
+                $("#users").empty();
+                for (var i = 0; i < users.length; ++i) {
+                    var name = users[i].Name;
+                    $("#users").append("<li><a>" + name + "</a></li>");
+                }
+            };
+
+            $("#createRoom").click(function () {
+                var roomName = $("#roomNameInput").val();
+                chat.join(roomName);
+                $("#popupCreateRoom").toggleClass("hide");
+            });
+
+            $("#send").click(function () {
+                sendMessage();
+            });
+
+            $("#cancelCreateRoom").click(function () {
+                $("#popupCreateRoom").toggleClass("hide");
+            });
+
+            $("#rooms").on("click", ".showRoom", function () {
+                var roomName = $(arguments[0].target).attr("data-roomName");
+                currentRoom = roomName;
+
+                $("[data-roomName='" + roomName + "']").parent().addClass("active");
+                chat.join(roomName);
+            });
+
+            $("#quitRoom").on("click", function () {
+                chat.quit(currentRoom);
+            });
+
+            $.connection.hub.start().done(function () {
+                chat.getRooms();
+            });
+
+            $("#messageInput").keydown(function (event) {
+                if (event.which == 13) {
+                    event.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            $("#notifyMeSwitch").live("click", function () {
+                if (window.webkitNotifications) {
+                    if (window.webkitNotifications.checkPermission() == 1) {
+                        window.webkitNotifications.requestPermission();
+                    }
+                }
+
+                return true;
+            });
+
+            $("#users").on("click", function (e) {
+                var login = $(e.target).text();
+                highlightUserMsgs(login, e.target);
+            });
+
+            $("#callCreateRoom").on("click", function () {
+                $("#popupCreateRoom").toggleClass("hide");
+            });
+
+            $("#rooms").live('show', function (e) {
+                currentRoom = $(e.target).text();
+                chat.changeRoom($(e.relatedTarget).text(), $(e.target).text());
+            });
+
+            function highlightUserMsgs(user, target) {
+                $(target).toggleClass("highlight");
+                $(".msgContainer, div:contains('" + user + "')").parent(".msgContainer").toggleClass("highlight");
+            }
+
+            function sendMessage() {
+                var messageInput = $("#messageInput");
+                var message = messageInput.val();
+                chat.send(currentRoom, message);
+                messageInput.val("");
+            }
+
+            function automaticallyScroll() {
+                $("#chatContainer").scrollTop($("#chatContainer").prop("scrollHeight"));
+            }
+
+            function notifyMe() {
+                if (window.webkitNotifications) {
+                    return window.webkitNotifications.checkPermission() == 0;
+                }
+                else {
+                    return $.pinify.isPinned();
+                }
+            }
+
+            function verifyNotifyMeStatus() {
+                var notifySwitch = $("#notifyMeSwitch");
+                if (notifyMe()) {
+
+                    notifySwitch.toggleClass("label-important", true)
+                    if (!notifySwitch.hasClass("label-success")) {
+                        notifySwitch.toggleClass("label-success", true);
+                        notifySwitch.text("On");
+                    }
+                }
+                else {
+                    if (!notifySwitch.hasClass("label-important")) {
+                        notifySwitch.toggleClass("label-important", true);
+                        notifySwitch.text("Off");
+                    }
+                }
+            }
+
+            function addClass(element, cssClass) {
+                if (!$(element).hasClass(cssClass)) {
+                    $(element).addClass(cssClass);
+                }
+            }
+
+            $(document).mousemove(function () {
+                if ($.pinify.isPinned()) {
+                    $.pinify.clearOverlay();
+                }
+            });
+
+        });
+    </script>
+}
+
+
+
+	<div class="content">
+			<div class="menu-groups">
+				<h3>talking groups</h3>
+
+				<ul id="rooms">
+				</ul>
+
+                <a href="#" id="callCreateRoom" class="btns btnAddRoom icons icoAdd" alt="Criar sala">[ + ]</a>
+                
+                <!-- ADD ROOM BEGIN -->
+                <div id="popupCreateRoom" class="input-append hide">
+                    <div class="modalBackground"></div>
+                    <div class="modalContainer">
+                        <div class="popup-container">
+                            <div class="popup-text">
+                                <h2>Criando uma sala</h2>
+                                <span>Qual será o nome?</span>
+                            </div>
+                            <div class="popup-operations"><input type="text" id="roomNameInput" />
+                                <button id="createRoom" class="btns btnCreate icons icoAdd">Criar sala</button>
+                                <button id="cancelCreateRoom" class="btns btnCancel icons icoExit">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ADD ROOM END-->
+
+
+                <div class="notifyContainer">
+                    <button id="notifyMe" class="btnSwitch btnNotify">notify me</button><div id="notifyMeSwitch" class="btnSwitchStatus">off</div>
+                </div>
+
+			</div>
+            <div class="chatHeader">
+                <span>group</span><h1>#SALA</h1><a href="#" id="quitRoom" class="btns btnChatExit icons icoExit" alt="Sair da sala">Sair</a>
+            </div>
+			<div id="chatContainer" class="content-stream">
+				<div class="stream">
+				
+				<div id="chat"></div>
+
+				</div>
+			</div>
+			<div class="menu-users">
+                <h3>users</h3>
+                <ul id="users"></ul>
+            </div>
+	</div>
+
+	<div class="footer">
+		<div class="send-message">
+            <textarea id="messageInput" rows="2" class="textAreaSend"></textarea>
+            <button type="submit" id="send" class="btnSend">send</button>
+        </div>
+	</div>
+
+
+<script type="text/javascript">
+    $('head').pinify({ favIcon: '@Url.Content("~/favicon.ico")', navColor: 'Silver', startUrl: '@Url.Content("~")' });
+
+    if ($.pinify.isPinned() == false) {
+        $('#notifyMeSwitch').pinify('enableSiteMode');
+        $('#hangingChadContainer').pinify('pinTeaser', { mainContentSelector: '#body', sticky: true, timeout: 10000 });
+    }
+</script>

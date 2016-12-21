@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{77396557-08A1-46E9-8D11-B53AAF3A20FE}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat", "Chat\Chat.csproj", "{33A79AE1-763F-4C2D-9710-4765F842A0CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatLibrary", "ChatLibrary\ChatLibrary.csproj", "{33428F6B-679F-48DD-BD7F-89F1BA365020}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{33A79AE1-763F-4C2D-9710-4765F842A0CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33A79AE1-763F-4C2D-9710-4765F842A0CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33A79AE1-763F-4C2D-9710-4765F842A0CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33A79AE1-763F-4C2D-9710-4765F842A0CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33428F6B-679F-48DD-BD7F-89F1BA365020}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33428F6B-679F-48DD-BD7F-89F1BA365020}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33428F6B-679F-48DD-BD7F-89F1BA365020}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33428F6B-679F-48DD-BD7F-89F1BA365020}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

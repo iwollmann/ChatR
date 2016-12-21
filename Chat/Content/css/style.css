@@ -1,0 +1,457 @@
+﻿html, body {
+	color: #333;
+	padding: 0;
+	margin: 0;
+	background-color: #F5F1DE;
+	font-family: Calibri,Arial,Helvetica,Verdana;
+}
+h1, h2, h3, h4, h5, h6 {
+	margin-top: 0;
+	padding-top: 0;
+}
+a {
+	color: #069;
+}
+a:hover {
+	color: #009CE8;
+}
+/* base containers */
+div.header, div.content, div.footer {
+	min-width: 795px;
+}
+div.header {
+	background-color: #333;
+	color: #eee;
+	height: 50px;
+	display: block;
+	background-position: top left;
+	background-repeat: no-repeat;
+}
+div.content {
+	background-color: #F5F1DE;
+	display: block;
+	margin-bottom: 150px;
+}
+div.footer {
+	background-color: #C9C4AF;
+	height: 100px;
+	display: block;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	box-shadow: inset 0 .2em .5em rgba(0, 0, 0, 0.3);
+}
+/* User Box */
+.user-box {
+	right: 0;
+	position: absolute;
+}
+/* content containers */
+.content-stream, .menu-users, .menu-groups {
+	position: absolute;
+	display: block;
+	overflow: auto;
+}
+.menu-groups {
+	top: 50px; /* header height */
+}
+.menu-groups h3 {
+	text-align: right;
+	padding: 0.8em 0.8em 0.5em 0.2em;
+	font-size: 0.9em;
+	color: #847742;
+}
+.menu-groups ul a {
+	padding: 0.3em 1em 0.3em 0.3em;
+	display: block;
+	text-decoration: none;
+	text-align: right;
+}
+.menu-groups ul a:hover {
+	background-color: #069;
+	color: #fff;
+}
+.menu-groups ul li.active a {
+	color: #333;
+	font-weight: bold;
+	background-color: #F5F1DE;
+	border-left: 5px solid #3D6C2D;
+}
+.notifyContainer {
+	position: absolute;
+	bottom: 1em;
+	right: 1em;
+}
+.btnSwitch {
+	display: inline-block;
+	height: 24px;
+	padding: 2px 4px 4px 6px;
+	background-color: white;
+	border: 0;
+	border-top-left-radius: 0.5em;
+	border-bottom-left-radius: 0.5em;
+	margin: 0;
+	color: #847742;
+	cursor: default;
+}
+.btnSwitchStatus {
+	display: inline-block;
+	height: 18px;
+	background-color: #847742;
+	color: white;
+	font-size: 13px;
+	vertical-align: top;
+	text-align: center;
+	padding: 3px 5px 3px 0;
+	width: 25px;
+	border-top-right-radius: 0.5em;
+	border-bottom-right-radius: 0.5em;
+	margin: 0;
+	cursor: pointer;
+}
+.content-stream, .menu-users {
+	top: 110px; /* header height + 60 */
+}
+.menu-users h3 {
+	text-align: left;
+	padding: 0.8em 0.8em 0.5em 0.2em;
+	font-size: 0.9em;
+	color: #847742;
+}
+.content-stream, .menu-users, .menu-groups {
+	bottom: 100px; /* footer height */
+}
+.content-stream {
+	right: 195px;
+	left: 160px;
+	min-width: 440px;
+}
+.stream {
+	padding: 2em 0.5em 0 1em;
+}
+.menu-groups {
+	background-color: #E4E0CE;
+	width: 160px;
+	left: 0;
+}
+.menu-users {
+	right: 0;
+	width: 195px;
+	padding-top: 1em;
+}
+.menu-users a {
+	padding: 0.2em 1em;
+	display: block;
+}
+/* modal */
+.modalBackground {
+	background-color: #F5F1DE; /*#333333*/;
+	bottom: 0;
+	height: 100%;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+	width: 100%;
+	z-index: 9;
+	opacity: 0.8;
+}
+.modalContainer {
+	bottom: 0;
+	height: 100%;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+	width: 100%;
+	z-index: 10;
+	color: #666;
+	opacity: 1;
+}
+.hide {
+	display: none;
+}
+.modalContainer h2 {
+	color: #857D5B;
+	font-size: 4em;
+	text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.2);
+}
+.modalContainer input {
+	position: absolute;
+	width: 12.8em;
+	font-size: 1.43em;
+	color: #494222;
+	font-weight: normal;
+	background-color: #FCF3CA;
+	padding: 0.5em;
+	border: 0;
+	box-shadow: inset 0 0.1em 0.4em;
+	border-radius: 5pt;
+}
+/* popup */
+.popup-container * {
+	opacity: 1;
+}
+.popup-container {
+	position: absolute;
+	left: 190px;
+	top: 160px;
+	opacity: 1;
+}
+.popup-container span {
+	font-size: 2em;
+	margin-left: 0.2em;
+}
+.popup-operations {
+	position: relative;
+	margin-left: 0.6em;
+	margin-top: 0.5em;
+}
+/* stream chat Header */
+.chatHeader {
+	display: block;
+	position: absolute;
+	top: 50px;
+	left: 160px;
+	right: 0;
+	background-image: url("../img/div-shadow.png");
+	background-position: bottom center;
+	background-repeat: no-repeat;
+	background-size: 100% 13px; /*text-align:right;*/;
+	padding-left: 1em;
+	height: 70px;
+}
+.chatHeader span, .chatHeader h1, .chatHeader a {
+	display: inline-block;
+}
+.chatHeader span {
+}
+.chatHeader h1 {
+	padding-top: 0.2em;
+	padding-left: 0.3em;
+}
+.chatHeader a {
+	margin: 8px 1em 0;
+	position: absolute;
+}
+/* message */
+.msgContainer {
+	display: block;
+	margin-bottom: 2.1em;
+	position: relative;
+}
+.msgContainer.Owner {
+}
+.msgContainer.Owner .msgTime {
+	width: 34px;
+	background-color: #DCD5B4;
+	float: right;
+	margin-left: 0;
+}
+.msgContainer.Owner .msgContent {
+	margin-left: 0;
+	margin-right: 42px;
+	background-color: #E4E0CE;
+}
+.msgContainer.Owner .msgUser .userName {
+	color: #847742;
+	font-weight: normal;
+	font-size: 0.8em;
+	padding-top: 0.5em;
+	padding-right: 0.7em;
+}
+.msgContainer.Owner .msgUser img {
+	display: none;
+}
+.msgTime {
+	display: block;
+	width: 34px;
+	background-color: #E4E0CE;
+	margin-left: 0px;
+	float: left;
+	padding: 4px;
+	color: #847742;
+	font-size: 0.8em;
+	text-align: center;
+}
+.msgContent {
+	padding: 0.3em 0.7em 0.4em;
+	margin-right: 40px;
+	margin-left: 42px;
+	display: block;
+	background-color: #FBF9F2;
+	word-wrap: break-word; /* css3 */
+}
+.msgUser {
+	position: absolute;
+	top: -1.5em; /*temp*/;
+	right: 0;
+	left: 0;
+}
+.msgUser img {
+	background-color: #069;
+	display: block;
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	right: 0;
+	top: 10px;
+	box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.4);
+}
+.msgUser .userName {
+	/*right: 40px;*/
+    position: absolute;
+	padding-right: 0.3em;
+	color: #069;
+	font-weight: bold;
+	font-size: 0.95em;
+}
+.userRoomIn {
+	padding: 0.1em 0.5em 0.2em;
+	background-color: #D6E8B4; /*#C1E197*/;
+	color: #333;
+	margin-bottom: 2.5em;
+	border-left: 5px #3D6C2D solid;
+}
+.userRoomOut {
+	padding: 0.1em 0.5em 0.2em;
+	background-color: #F1D1AC; /*#EFBA89*/;
+	color: #900;
+	margin-bottom: 2.5em;
+	border-left: 6px #900 solid;
+}
+.msgContainer .msg {
+	margin-bottom: 1px;
+}
+/*  */
+div.footer .send-message {
+	width: 90%;
+	margin-left: 10%;
+	margin-top: 1em;
+	margin-bottom: 0.5em;
+	min-width: 350px;
+}
+div.footer .send-message button {
+	background-color: #069;
+	color: #fff;
+	font-weight: bold;
+	min-width: 69px;
+	text-align: center;
+	font-size: 1.1em;
+	height: 48px;
+	border: 0;
+	outline: 0;
+	padding: 6px 1.2em;
+	float: left;
+}
+div.footer .send-message button:hover {
+	background-color: #058;
+	cursor: pointer;
+}
+div.footer .send-message textarea {
+	margin: 0;
+	width: 70%;
+	float: left;
+	height: 32px;
+	padding: 6px;
+	color: #494222;
+	background-color: #FCF3CA;
+	padding: 0.5em 1em;
+	border: 0;
+	box-shadow: inset 0 0.1em 0.4em;
+	border-top-left-radius: 1em;
+	border-bottom-left-radius: 1em;
+	font-size: 0.95em;
+	font-family: arial;
+	overflow: hidden;
+	resize: none;
+}
+input, textarea {
+	outline: none;
+}
+input:focus, textarea:focus {
+	box-shadow: inset 0 0.1em 0.4em, 0 0 30px #FFF476 !important;
+}
+/* Buttons */
+.btnSend {
+	border-top-right-radius: 1em;
+	border-bottom-right-radius: 1em;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.8), inset 0 0.3em 0.8em rgba(255, 255, 255, 0.3), inset 0 -0.4em 0.7em rgba(0, 0, 0, 0.3);
+}
+.btns {
+	display: block;
+	height: 40px;
+	overflow: hidden;
+	text-indent: -666em;
+	border-radius: 0.4em;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.8), inset 0 1px 3px rgba(255, 255, 255, 0.6), inset 0 -1px 3px rgba(0, 0, 0, 0.6);
+}
+.btnAddRoom {
+	width: 40px;
+	background-color: #3D6C2D;
+	color: #fff;
+	margin: 1em auto;
+}
+.btnAddRoom:hover {
+	background-color: #54953E;
+}
+.btnChatExit {
+	width: 40px;
+	background-color: #aaa; /*#A42315;*/ /*padding: 2px 10px;*/;
+	text-decoration: none;
+	color: #fff;
+	font-weight: bold;
+}
+.btnChatExit:hover {
+	background-color: #D92F1C;
+}
+.btnCreate {
+	width: 40px;
+	background-color: #3D6C2D;
+	color: #fff;
+	display: inline-block;
+}
+.btnCreate:hover {
+	background-color: #54953E;
+}
+.btnCancel {
+	width: 40px;
+	background-color: #A42315;
+	color: #fff;
+	display: inline-block;
+}
+.btnCancel:hover {
+	background-color: #D92F1C;
+}
+.modalContainer .btns {
+	border: 0;
+	cursor: pointer;
+	height: 50px;
+	width: 50px;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.8), inset 0 1px 3px rgba(255, 255, 255, 0.6), inset 0 -1px 3px rgba(0, 0, 0, 0.6);
+}
+.modalContainer .btnCancel {
+	left: 28.1em;
+	position: absolute;
+}
+.modalContainer .btnCreate {
+	position: absolute;
+	left: 24em;
+}
+/* Icons  */
+.icons {
+	background-image: url("../img/icons-bg-btn.png");
+}
+.icons.icoAdd {
+	background-position: 4px 4px;
+}
+.modalContainer .icons.icoAdd {
+	background-position: 9px 9px;
+}
+.icons.icoExit {
+	background-position: 4px -38px;
+}
+.modalContainer .icons.icoExit {
+	background-position: 9px -33px;
+}
