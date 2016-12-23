@@ -1,8 +1,11 @@
-﻿html, body {
+﻿* {
+    box-sizing: border-box;
+}
+
+html, body {
 	color: #333;
 	padding: 0;
 	margin: 0;
-	background-color: #F5F1DE;
 	font-family: Calibri,Arial,Helvetica,Verdana;
 }
 h1, h2, h3, h4, h5, h6 {
@@ -16,45 +19,48 @@ a:hover {
 	color: #009CE8;
 }
 /* base containers */
-div.header, div.content, div.footer {
-	min-width: 795px;
+.header {
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+	background-color: #3c3c3c;
+	color: #eee;	
 }
-div.header {
-	background-color: #333;
-	color: #eee;
-	height: 50px;
-	display: block;
-	background-position: top left;
-	background-repeat: no-repeat;
+/*.sidebar {}*/
+.roomList {
+    height: calc(100% - 50px);
 }
-div.content {
-	background-color: #F5F1DE;
-	display: block;
-	margin-bottom: 150px;
-}
-div.footer {
-	background-color: #C9C4AF;
-	height: 100px;
-	display: block;
+.footer {
+	height: 70px;
 	position: fixed;
 	bottom: 0;
 	right: 0;
-	left: 0;
-	box-shadow: inset 0 .2em .5em rgba(0, 0, 0, 0.3);
+    width: calc(100vw - 160px); /* - Sidebar Width */
+    border-top: 1px solid #eaeaea;
+    padding: 10px;
 }
+
 /* User Box */
-.user-box {
-	right: 0;
-	position: absolute;
-}
+/*.user-box {
+
+}*/
 /* content containers */
-.content-stream, .menu-users, .menu-groups {
+.content-stream,
+.menu-users {
 	position: absolute;
 	display: block;
 	overflow: auto;
+    top: 50px; /* header height */
+    bottom: 70px; /* footer height */
 }
+
 .menu-groups {
-	top: 50px; /* header height */
+	width: 160px; /* Sidebar Width */
+    height: 100%; /* Legacy Fallback */
+    height: 100vh;
+	left: 0;
+    background-color: #f6f6f6;
+    border-right: 1px solid #eaeaea;
 }
 .menu-groups h3 {
 	text-align: right;
@@ -80,47 +86,64 @@ div.footer {
 }
 .notifyContainer {
 	position: absolute;
-	bottom: 1em;
-	right: 1em;
+	bottom: 10px;
+    left: 30px;
 }
+
+/* stream chat Header */
+.chatHeader {
+	display: block;
+	position: absolute;
+	left: 160px;
+    top:0;
+	padding-left: 1em;
+	height: 50px;
+    width: calc(100vw - 160px);
+    border-bottom: 1px solid #eaeaea;
+}
+.chatHeader span, .chatHeader h1, .chatHeader a {
+	display: inline-block;
+}
+.chatHeader span {
+}
+.chatHeader h1 {
+	padding-top: 0.2em;
+	padding-left: 0.3em;
+}
+.chatHeader a {
+	margin: 4px 10px 0;
+	position: absolute;
+}
+
+/* Botoes */
 .btnSwitch {
 	display: inline-block;
 	height: 24px;
 	padding: 2px 4px 4px 6px;
 	background-color: white;
 	border: 0;
-	border-top-left-radius: 0.5em;
-	border-bottom-left-radius: 0.5em;
 	margin: 0;
 	color: #847742;
 	cursor: default;
 }
 .btnSwitchStatus {
 	display: inline-block;
-	height: 18px;
+	height: 24px;
 	background-color: #847742;
 	color: white;
 	font-size: 13px;
 	vertical-align: top;
 	text-align: center;
-	padding: 3px 5px 3px 0;
+	padding: 5px 5px 5px 4px;
 	width: 25px;
-	border-top-right-radius: 0.5em;
-	border-bottom-right-radius: 0.5em;
 	margin: 0;
 	cursor: pointer;
 }
-.content-stream, .menu-users {
-	top: 110px; /* header height + 60 */
-}
+
 .menu-users h3 {
 	text-align: left;
-	padding: 0.8em 0.8em 0.5em 0.2em;
 	font-size: 0.9em;
 	color: #847742;
-}
-.content-stream, .menu-users, .menu-groups {
-	bottom: 100px; /* footer height */
 }
 .content-stream {
 	right: 195px;
@@ -128,30 +151,30 @@ div.footer {
 	min-width: 440px;
 }
 .stream {
-	padding: 2em 0.5em 0 1em;
+	padding: 0 10px;
+    margin: 30px 0 0 0;
 }
-.menu-groups {
-	background-color: #E4E0CE;
-	width: 160px;
-	left: 0;
-}
+
 .menu-users {
 	right: 0;
 	width: 195px;
-	padding-top: 1em;
+	padding: 10px;
+    border-left: 1px solid #eaeaea;
 }
 .menu-users a {
 	padding: 0.2em 1em;
 	display: block;
 }
+.menu-users .users li {
+    list-style: none;
+}
+
+
 /* modal */
 .modalBackground {
-	background-color: #F5F1DE; /*#333333*/;
-	bottom: 0;
+	background-color: #000;
 	height: 100%;
-	left: 0;
 	position: fixed;
-	right: 0;
 	top: 0;
 	width: 100%;
 	z-index: 9;
@@ -166,29 +189,22 @@ div.footer {
 	top: 0;
 	width: 100%;
 	z-index: 10;
-	color: #666;
+	color: #e2e2e2;
 	opacity: 1;
 }
-.hide {
-	display: none;
-}
 .modalContainer h2 {
-	color: #857D5B;
+	color: #FFFFFF;
 	font-size: 4em;
-	text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.2);
 }
 .modalContainer input {
 	position: absolute;
 	width: 12.8em;
 	font-size: 1.43em;
-	color: #494222;
 	font-weight: normal;
-	background-color: #FCF3CA;
 	padding: 0.5em;
 	border: 0;
-	box-shadow: inset 0 0.1em 0.4em;
-	border-radius: 5pt;
 }
+
 /* popup */
 .popup-container * {
 	opacity: 1;
@@ -208,55 +224,28 @@ div.footer {
 	margin-left: 0.6em;
 	margin-top: 0.5em;
 }
-/* stream chat Header */
-.chatHeader {
-	display: block;
-	position: absolute;
-	top: 50px;
-	left: 160px;
-	right: 0;
-	background-image: url("../img/div-shadow.png");
-	background-position: bottom center;
-	background-repeat: no-repeat;
-	background-size: 100% 13px; /*text-align:right;*/;
-	padding-left: 1em;
-	height: 70px;
-}
-.chatHeader span, .chatHeader h1, .chatHeader a {
-	display: inline-block;
-}
-.chatHeader span {
-}
-.chatHeader h1 {
-	padding-top: 0.2em;
-	padding-left: 0.3em;
-}
-.chatHeader a {
-	margin: 8px 1em 0;
-	position: absolute;
-}
+
+
+
 /* message */
 .msgContainer {
 	display: block;
 	margin-bottom: 2.1em;
 	position: relative;
 }
-.msgContainer.Owner {
-}
+
 .msgContainer.Owner .msgTime {
-	width: 34px;
-	background-color: #DCD5B4;
 	float: right;
 	margin-left: 0;
 }
 .msgContainer.Owner .msgContent {
 	margin-left: 0;
 	margin-right: 42px;
-	background-color: #E4E0CE;
+	background-color: #FFFFFF;
+    border-bottom: 1px solid #EDEDED;
 }
 .msgContainer.Owner .msgUser .userName {
-	color: #847742;
-	font-weight: normal;
+	font-weight: bold;
 	font-size: 0.8em;
 	padding-top: 0.5em;
 	padding-right: 0.7em;
@@ -266,11 +255,10 @@ div.footer {
 }
 .msgTime {
 	display: block;
-	width: 34px;
-	background-color: #E4E0CE;
+	background-color: #e2e2e2;
 	margin-left: 0px;
 	float: left;
-	padding: 4px;
+	padding: 8px 5px;
 	color: #847742;
 	font-size: 0.8em;
 	text-align: center;
@@ -280,8 +268,8 @@ div.footer {
 	margin-right: 40px;
 	margin-left: 42px;
 	display: block;
-	background-color: #FBF9F2;
-	word-wrap: break-word; /* css3 */
+	/*background-color: #FBF9F2;*/
+	word-wrap: break-word;
 }
 .msgUser {
 	position: absolute;
@@ -296,15 +284,12 @@ div.footer {
 	height: 40px;
 	position: absolute;
 	right: 0;
-	top: 10px;
-	box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.4);
+	top: 20px;
 }
 .msgUser .userName {
-	/*right: 40px;*/
     position: absolute;
 	padding-right: 0.3em;
 	color: #069;
-	font-weight: bold;
 	font-size: 0.95em;
 }
 .userRoomIn {
@@ -324,15 +309,16 @@ div.footer {
 .msgContainer .msg {
 	margin-bottom: 1px;
 }
-/*  */
-div.footer .send-message {
+
+/* Footer */
+footer .send-message {
 	width: 90%;
 	margin-left: 10%;
 	margin-top: 1em;
 	margin-bottom: 0.5em;
 	min-width: 350px;
 }
-div.footer .send-message button {
+footer .send-message button {
 	background-color: #069;
 	color: #fff;
 	font-weight: bold;
@@ -345,39 +331,42 @@ div.footer .send-message button {
 	padding: 6px 1.2em;
 	float: left;
 }
-div.footer .send-message button:hover {
+.footer .send-message button:hover {
 	background-color: #058;
 	cursor: pointer;
 }
-div.footer .send-message textarea {
+.footer .send-message textarea {
 	margin: 0;
 	width: 70%;
 	float: left;
 	height: 32px;
 	padding: 6px;
 	color: #494222;
-	background-color: #FCF3CA;
 	padding: 0.5em 1em;
-	border: 0;
-	box-shadow: inset 0 0.1em 0.4em;
-	border-top-left-radius: 1em;
-	border-bottom-left-radius: 1em;
+	border: 1px solid #ccc;
 	font-size: 0.95em;
 	font-family: arial;
 	overflow: hidden;
 	resize: none;
 }
+
+/* Input */
 input, textarea {
 	outline: none;
+    transition: all 0.30s ease-in-out;
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 1px solid #DDDDDD;
 }
 input:focus, textarea:focus {
-	box-shadow: inset 0 0.1em 0.4em, 0 0 30px #FFF476 !important;
+	box-shadow: 0 0 5px #51cbee;
+    border: 1px solid #51cbee;
 }
+
 /* Buttons */
 .btnSend {
-	border-top-right-radius: 1em;
-	border-bottom-right-radius: 1em;
-	box-shadow: 0 0 3px rgba(0, 0, 0, 0.8), inset 0 0.3em 0.8em rgba(255, 255, 255, 0.3), inset 0 -0.4em 0.7em rgba(0, 0, 0, 0.3);
+	height: 34px;
+    margin: -1px 0 0 -2px; /* Firefox */
 }
 .btns {
 	display: block;
@@ -454,4 +443,9 @@ input:focus, textarea:focus {
 }
 .modalContainer .icons.icoExit {
 	background-position: 9px -33px;
+}
+
+/* Utilities */
+.hide {
+	display: none;
 }

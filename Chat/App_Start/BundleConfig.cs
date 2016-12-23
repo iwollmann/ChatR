@@ -30,7 +30,9 @@ namespace Chat
 
             bundles.Add(new ScriptBundle("~/bundles/js").Include("~/Content/js/bootstrap.js"));
 
-            bundles.Add(new MotherFuckerStyleBundle("~/bundles/css").Include("~/Content/css/*.css"));
+            bundles.Add(new MotherFuckerStyleBundle("~/bundles/css").Include(
+                        "~/Content/css/pinify.css",
+                        "~/Content/css/style.css"));
         }
     }
 
