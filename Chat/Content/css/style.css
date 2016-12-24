@@ -150,6 +150,11 @@ a:hover {
 	left: 160px;
 	min-width: 440px;
 }
+.content-stream.chatRoomOut {
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
+
 .stream {
 	padding: 0 10px;
     margin: 30px 0 0 0;
@@ -387,13 +392,18 @@ input:focus, textarea:focus {
 }
 .btnChatExit {
 	width: 40px;
-	background-color: #aaa; /*#A42315;*/ /*padding: 2px 10px;*/;
+	background-color: #aaa;
 	text-decoration: none;
 	color: #fff;
 	font-weight: bold;
 }
 .btnChatExit:hover {
 	background-color: #D92F1C;
+}
+.btnChatExit.chatRoomOut {
+    display:none;
+    /*filter:grayscale(100%);
+    cursor: not-allowed;*/
 }
 .btnCreate {
 	width: 40px;

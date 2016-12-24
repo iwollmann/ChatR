@@ -90,8 +90,12 @@
 
             chat.quited = function (roomName, userName) {
                 var roomId = roomName.replace(" ", "");
+                
                 $("#" + roomId).append("<div class='userRoomOut'>" + userName + " saiu da sala " + roomName + "</div>");
+                $("#rooms [data-roomName='" + roomName + "']").remove();
                 $("#headerRoomName").text("");
+                $("#chatContainer").addClass("chatRoomOut");
+                $("#quitRoom").addClass("chatRoomOut");
                 automaticallyScroll();
             };
 
@@ -122,13 +126,18 @@
                 var roomName = $(arguments[0].target).attr("data-roomName");
                 currentRoom = roomName;
 
-                $("[data-roomName='" + roomName + "']").parent().addClass("active").siblings().removeClass('active');;
-                $("#headerRoomName").text("#" + currentRoom);
+                $("[data-roomName='" + roomName + "']").parent().addClass("active").siblings().removeClass('active');
                 chat.join(roomName);
+                $("#headerRoomName").text("#" + currentRoom);
+                $("#quitRoom").removeClass("chatRoomOut");
+                $("#chatContainer").removeClass("chatRoomOut");
             });
 
             $("#quitRoom").on("click", function () {
+                var userName = "@Model.Name";
+
                 chat.quit(currentRoom);
+                chat.quited(currentRoom,userName);
             });
 
             $.connection.hub.start().done(function () {
