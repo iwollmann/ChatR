@@ -43,6 +43,7 @@
                 $("#chat").append("<div class='tab-pane active' id='" + roomId + "'></div>");
                 $("#" + roomId).append("<div class='userRoomIn'>" + userName + " entrou na sala " + roomName + "</div>");
                 $("[data-roomName='" + roomName + "']").tab('show');
+                $("#headerRoomName").text("#" + roomName);
             };
 
             chat.messageReceived = function (roomName, msg, msgUser, sameUser) {
@@ -89,8 +90,12 @@
 
             chat.quited = function (roomName, userName) {
                 var roomId = roomName.replace(" ", "");
+                
                 $("#" + roomId).append("<div class='userRoomOut'>" + userName + " saiu da sala " + roomName + "</div>");
-
+                $("#rooms [data-roomName='" + roomName + "']").remove();
+                $("#headerRoomName").text("");
+                $("#chatContainer").addClass("chatRoomOut");
+                $("#quitRoom").addClass("chatRoomOut");
                 automaticallyScroll();
             };
 
@@ -121,12 +126,18 @@
                 var roomName = $(arguments[0].target).attr("data-roomName");
                 currentRoom = roomName;
 
-                $("[data-roomName='" + roomName + "']").parent().addClass("active");
+                $("[data-roomName='" + roomName + "']").parent().addClass("active").siblings().removeClass('active');
                 chat.join(roomName);
+                $("#headerRoomName").text("#" + currentRoom);
+                $("#quitRoom").removeClass("chatRoomOut");
+                $("#chatContainer").removeClass("chatRoomOut");
             });
 
             $("#quitRoom").on("click", function () {
+                var userName = "@Model.Name";
+
                 chat.quit(currentRoom);
+                chat.quited(currentRoom,userName);
             });
 
             $.connection.hub.start().done(function () {
@@ -223,64 +234,68 @@
     </script>
 }
 
+<div class="sidebar menu-groups">
+    <div class="header">
+        <a href="#" class="logo"></a>
+        <div class="user-image">#FOTOUSER</div>
+        <div class="user-box">#USER</div>
+    </div>
 
+    <div class="roomList">
+        <h3>Talking groups</h3>
 
-	<div class="content">
-			<div class="menu-groups">
-				<h3>talking groups</h3>
+        <ul id="rooms"></ul>
 
-				<ul id="rooms">
-				</ul>
+        <a href="#" id="callCreateRoom" class="btns btnAddRoom icons icoAdd" alt="Criar sala">[ + ]</a>
 
-                <a href="#" id="callCreateRoom" class="btns btnAddRoom icons icoAdd" alt="Criar sala">[ + ]</a>
-                
-                <!-- ADD ROOM BEGIN -->
-                <div id="popupCreateRoom" class="input-append hide">
-                    <div class="modalBackground"></div>
-                    <div class="modalContainer">
-                        <div class="popup-container">
-                            <div class="popup-text">
-                                <h2>Criando uma sala</h2>
-                                <span>Qual será o nome?</span>
-                            </div>
-                            <div class="popup-operations"><input type="text" id="roomNameInput" />
-                                <button id="createRoom" class="btns btnCreate icons icoAdd">Criar sala</button>
-                                <button id="cancelCreateRoom" class="btns btnCancel icons icoExit">Cancelar</button>
-                            </div>
-                        </div>
+        @*ADD ROOM BEGIN*@
+        <div id="popupCreateRoom" class="input-append hide">
+            <div class="modalBackground"></div>
+            <div class="modalContainer">
+                <div class="popup-container">
+                    <div class="popup-text">
+                        <h2>Criando uma sala</h2>
+                        <span>Qual será o nome?</span>
+                    </div>
+                    <div class="popup-operations">
+                        <input type="text" id="roomNameInput" />
+                        <button id="createRoom" class="btns btnCreate icons icoAdd">Criar sala</button>
+                        <button id="cancelCreateRoom" class="btns btnCancel icons icoExit">Cancelar</button>
                     </div>
                 </div>
-                <!-- ADD ROOM END-->
-
-
-                <div class="notifyContainer">
-                    <button id="notifyMe" class="btnSwitch btnNotify">notify me</button><div id="notifyMeSwitch" class="btnSwitchStatus">off</div>
-                </div>
-
-			</div>
-            <div class="chatHeader">
-                <span>group</span><h1>#SALA</h1><a href="#" id="quitRoom" class="btns btnChatExit icons icoExit" alt="Sair da sala">Sair</a>
             </div>
-			<div id="chatContainer" class="content-stream">
-				<div class="stream">
-				
-				<div id="chat"></div>
-
-				</div>
-			</div>
-			<div class="menu-users">
-                <h3>users</h3>
-                <ul id="users"></ul>
-            </div>
-	</div>
-
-	<div class="footer">
-		<div class="send-message">
-            <textarea id="messageInput" rows="2" class="textAreaSend"></textarea>
-            <button type="submit" id="send" class="btnSend">send</button>
         </div>
-	</div>
+        @*ADD ROOM END*@
 
+        <div class="notifyContainer">
+            <button id="notifyMe" class="btnSwitch btnNotify">Notify me</button><div id="notifyMeSwitch" class="btnSwitchStatus">off</div>
+        </div>
+    </div>
+</div>
+
+<div class="chatContent">
+    <div class="chatHeader">
+        <h1 id="headerRoomName"></h1><a href="#" id="quitRoom" class="btns btnChatExit icons icoExit" alt="Exit active room">Exit Room</a>
+    </div>
+
+    <div id="chatContainer" class="content-stream">
+        <div class="stream">
+            <div id="chat"></div>
+        </div>
+    </div>
+
+    <div class="menu-users">
+        <h3>users</h3>
+        <ul id="users" class="users"></ul>
+    </div>
+
+    <div class="footer">
+        <div class="send-message">
+            <textarea id="messageInput" rows="2" class="textAreaSend"></textarea>
+            <button type="submit" id="send" class="btnSend">Send</button>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     $('head').pinify({ favIcon: '@Url.Content("~/favicon.ico")', navColor: 'Silver', startUrl: '@Url.Content("~")' });

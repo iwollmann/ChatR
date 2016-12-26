@@ -54,7 +54,7 @@ namespace ChatLibrary
                                     if (x.Count >= (chat.GetUsersInRoom(roomName).Count / 2))
                                     {
                                         chat.Quit(roomName, toBeKicked);
-                                        //chat.Send(roomName, "SE FUFU!");
+                                        //chat.Send(roomName, "Kick Message");
                                     }
                                 }
                                 finally
