@@ -1,10 +1,12 @@
 import React from 'react';
 import { render } from 'react-dom';
 
+import Routes from './components/routes';
+
 const renderApp = () => {
     return (
       <div>
-        <h1> Testing </h1>
+        <Routes />
       </div>
     );
   };
