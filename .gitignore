@@ -261,6 +261,7 @@ _SpecRunner.html
 __benchmarks__
 build/
 coverage/
+.nyc_output
 .module-cache
 *.gem
 docs/.bundle
