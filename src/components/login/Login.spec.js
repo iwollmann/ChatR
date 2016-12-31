@@ -1,12 +1,12 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { render } from 'enzyme';
 import { expect } from 'chai';
 
 import Login from './Login';
 
 describe('<Login />', () => {
-    it ('render a <input /> component', ()=>{
-        const wrapper = shallow(<Login />);
-        expect(wrapper.contains(<input type="text" />)).to.eq(true);
+    it ('render the inputs', ()=>{
+        const wrapper = render(<Login />);
+        expect(wrapper.find('input').length).to.eq(2);
     });
 })
