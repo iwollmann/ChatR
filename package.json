@@ -5,7 +5,8 @@
   "main": "src/app.js",
   "scripts": {
     "start": "webpack-dev-server --display-error-details",
-    "tests": "nyc --reporter=html --reporter=text mocha src/**/*.spec.js --require babel-core/register --require src/config/.setupTests.js"
+    "tests": "mocha src/**/*.spec.js --require babel-core/register --require src/config/.setupTests.js",
+    "tests:coverage": "nyc --reporter=html --reporter=text npm run tests"
   },
   "repository": {
     "type": "git",

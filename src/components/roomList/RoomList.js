@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { uniq } from '../../services/array/array.js'
 
 class RoomList extends Component {
     render() {
@@ -10,10 +11,10 @@ class RoomList extends Component {
         };
 
         return (
-            <div class="roomList">
+            <div className="roomList">
                 <h3>Talking groups</h3>
                 <ul id="rooms">
-                    {this.props.rooms.map(renderRooms, this)}
+                    {uniq(this.props.rooms).map(renderRooms, this)}
                 </ul>
                 <a href="#" id="callCreateRoom" className="btns btnAddRoom icons icoAdd" alt="Criar sala">[ + ]</a>
             </div>
